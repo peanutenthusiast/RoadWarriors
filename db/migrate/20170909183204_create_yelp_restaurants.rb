@@ -3,10 +3,11 @@ class CreateYelpRestaurants < ActiveRecord::Migration[5.1]
     create_table :yelp_restaurants do |t|
       t.integer :ratings
       t.integer :price_range
-      t.string :name
-      t.string :address
+      t.string :name, null: false
+      t.string :address, null: false
 
       t.timestamps
     end
+
   end
 end

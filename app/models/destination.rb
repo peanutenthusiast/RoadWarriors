@@ -1,4 +1,5 @@
 class Destination < ApplicationRecord
   has_many :favorites, :as => :favoritable
-  belongs_to :search
+  has_many :searches
+  has_many :users, through: :searches
 end

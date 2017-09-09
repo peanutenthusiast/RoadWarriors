@@ -1,0 +1,2 @@
+class YelpRestaurantsController < ApplicationController
+end

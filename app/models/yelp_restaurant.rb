@@ -1,0 +1,2 @@
+class YelpRestaurant < ApplicationRecord
+end

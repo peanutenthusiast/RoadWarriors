@@ -24,6 +24,7 @@ module Api
 
     end
 
+    # This would allow editing email and username
     def edit
 
       if @user
@@ -34,6 +35,7 @@ module Api
 
     end
 
+    # This updates user params
     def update
 
       if @user.update_attributes(user_params)
@@ -44,7 +46,7 @@ module Api
 
     end
 
-
+   # Delete User
     def destroy
       if @user.destroy
         render text: "Account has been successfully deleted.", status: 'SUCCESS'
@@ -60,6 +62,7 @@ module Api
         @user = User.find_by(access_token: params[:access_token])
       end
 
+     # White listing params
       def user_params
         params.require(:user).permit(:username, :email, :password)
       end

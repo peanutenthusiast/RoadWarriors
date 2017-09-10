@@ -1,6 +1,8 @@
 class User < ApplicationRecord
-  #  will conver entered email to downcase
-  before_save {self.email = email.downcase}
+  attr_accessor :remember_token, :reset_token
+
+  #  will convert entered email to downcase
+  before_save :downcase_email
   # username validations
   validates :username, presence: true, uniqueness: true, length: {maximum: 50}
 
@@ -11,9 +13,6 @@ class User < ApplicationRecord
   # password validations
   validates :password_digest, presence: true, length: {minimum: 6}
   has_secure_password
-
-  # access_token authentication
-  validates :access_token, uniqueness: true
 
   # Associations
   has_many :favorites
@@ -42,6 +41,11 @@ class User < ApplicationRecord
   def authenticated?(remember_token)
     BCrypt::Password.new(remember_digest).is_password?(remember_token)
   end
+
+  private
+    def downcase_email
+      self.email = email.downcase
+    end
 
 
 end

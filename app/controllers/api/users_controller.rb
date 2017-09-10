@@ -9,7 +9,7 @@ module Api
 
     # This would save the user object with entered params in the DB
     def create
-      @user = User.new(user_params)
+      @user = User.new(username: params[:username], email: params[:email], password: params[:password])
 
       if @user.save
         render json: {status: 'SUCCESS', message: 'Account successfully created', accessToken: @user.access_token}.to_json
@@ -46,10 +46,10 @@ module Api
         @user = User.find_by(access_token: params[:access_token])
       end
 
-     # White listing params
-      def user_params
-        params.require(:user).permit(:email, :password)
-      end
+     # # White listing params
+     #  def user_params
+     #    params.require(:username, :email, :password).permit(:username, :email, :password)
+     #  end
 
   end
 

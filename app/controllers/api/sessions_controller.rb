@@ -2,14 +2,11 @@ module Api
 
   class SessionsController < ApplicationController
 
-    def new
-    end
-
 
    # If user login data is validated, access token will be returned to the client app
     def create
       @user = User.find_by(email: params[:email])
-      if @user && @user.authenticate(params[:session][:password])
+      if @user && @user.authenticate(params[:password])
         render json: {status: 'SUCCESS', accessToken:@user.accessToken}.to_json
       else
         render json: {errors: ["Incorrect email or password."], status: 422}.to_json

@@ -7,11 +7,6 @@ module Api
     def show
     end
 
-    #  This would create a new user object
-    def new
-      @user = User.new
-    end
-
     # This would save the user object with entered params in the DB
     def create
       @user = User.new(user_params)
@@ -20,17 +15,6 @@ module Api
         render json: {status: 'SUCCESS', message: 'Account successfully created', accessToken: @user.access_token}.to_json
       else
         render json: {errors: ["Sign up failed!"], status: 422}.to_json
-      end
-
-    end
-
-    # This would allow editing email and username
-    def edit
-
-      if @user
-        render json: {@user, only: [:email, :username], status: 'SUCCESS'}
-      else
-        render text: "User can not be identified !", status: 422
       end
 
     end

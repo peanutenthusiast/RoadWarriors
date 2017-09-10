@@ -1,6 +1,13 @@
 class User < ApplicationRecord
-  #  will conver entered email to downcase
-  before_save {self.email = email.downcase}
+
+  attr_accessor :remember_token, :reset_token
+
+  #  will convert entered email to downcase
+  before_save :downcase_email
+
+  # will generate a access token
+  before_create :generate_access_token
+
   # username validations
   validates :username, presence: true, uniqueness: true, length: {maximum: 50}
 
@@ -11,9 +18,6 @@ class User < ApplicationRecord
   # password validations
   validates :password_digest, presence: true, length: {minimum: 6}
   has_secure_password
-
-  # access_token authentication
-  validates :access_token, uniqueness: true
 
   # Associations
   has_many :favorites
@@ -39,9 +43,43 @@ class User < ApplicationRecord
   end
 
   # Returns true if the given token matches the digest.
-  def authenticated?(remember_token)
-    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  def authenticated?(attribute, token)
+    digest = self.send("#{attribute}_digest")
+    return false if digest.nil?
+    BCrypt::Password.new(remember_digest).is_password?(token)
   end
+
+  # Forgets a user
+  def forget
+    update_attribute(:remember_digest, nil)
+  end
+
+  # Sets the password reset attributes
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_attribute(:reset_digest, User.digest(reset_token))
+    update_attribute(:reset_sent_at, Time.zone.now)
+  end
+
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
+  # Returns true if password reset has expired
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+  end
+
+  private
+    def downcase_email
+      self.email = email.downcase
+    end
+
+    def generate_access_token
+      begin
+        self.access_token = User.new_token
+      end while self.class.exists?(access_token: access_token)
+    end
 
 
 end

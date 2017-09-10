@@ -5,7 +5,7 @@ module Api
 
    # If user login data is validated, access token will be returned to the client app
     def create
-      @user = User.find_by(email: params[:email])
+      @user = User.find_by(email: params[:email].downcase)
       if @user && @user.authenticate(params[:password])
         render json: {status: 'SUCCESS', accessToken:@user.accessToken}.to_json
       else
@@ -19,11 +19,11 @@ module Api
       if @user
         render json: {
           status: 'SUCCESS', message: "User Verified."
-        }
+        }.to_json
       else
         render json: {
           status: 422, message: "Verification failed"
-        }
+        }.to_json
       end
     end
 

@@ -23,7 +23,7 @@ module Api
     def update
 
       if @user.update_attributes(user_params)
-        render json: {status: 'SUCCESS', message: 'Account successfully updated'}.to_json
+        render json: {status: 'SUCCESS', message: 'Account successfully updated', accessToken: @user.access_token}.to_json
       else
         render json: { errors: ['Update unsuccessful!'], status: 422 }.to_json
       end
@@ -48,7 +48,7 @@ module Api
 
      # White listing params
       def user_params
-        params.require(:user).permit(:username, :email, :password)
+        params.require(:user).permit(:email, :password)
       end
 
   end

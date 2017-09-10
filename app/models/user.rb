@@ -12,6 +12,9 @@ class User < ApplicationRecord
   validates :password_digest, presence: true, length: {minimum: 6}
   has_secure_password
 
+  # access_token authentication
+  validates :access_token, uniqueness: true
+
   # Associations
   has_many :favorites
   has_many :searches

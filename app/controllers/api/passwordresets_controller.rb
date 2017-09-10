@@ -22,7 +22,7 @@ module Api
 
       if (password: params[:password]).empty?
         render json: {status: 422, errors: ['Password cannot be empty']}
-      elsif @user.update_attributes(user_params)
+      elsif @user.update_attributes(password: params[:password])
         log_in @user
         render json: {status: 'SUCCESS', message: 'Password has been reset.'}
       end

@@ -18,7 +18,7 @@ module Api
 
     def update
 
-      if params[:user][:password].empty?
+      if (password: params[:password]).empty?
         render json: {status: 422, errors: ['Password cannot be empty']}
       elsif @user.update_attributes(user_params)
         log_in @user
@@ -29,9 +29,9 @@ module Api
 
     private
 
-      def user_params
-        params.require(:user).permit(:password, :password_confirmation)
-      end
+      # def user_params
+      #   params.require(:user).permit(:password, :password_confirmation)
+      # end
 
       def get_user
         @user = User.find_by(email: params[:email])

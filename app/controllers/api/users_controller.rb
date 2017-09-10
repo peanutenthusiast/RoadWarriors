@@ -17,38 +17,42 @@ module Api
       @user = User.new(user_params)
 
       if @user.save
-        render json: {status: 'SUCCESS', message: 'Account successfully created', accessToken: @user.access_token}
+        render json: {status: 'SUCCESS', message: 'Account successfully created', accessToken: @user.access_token}.to_json
       else
-        render json: @user.errors, status: 422
+        render json: {errors: ["Sign up failed!"], status: 422}.to_json
       end
 
     end
 
-    # def edit
-    #   if @user
-    #     render json: {status: 'SUCCESS', message: 'User credentials successfully updated', accessToken: @user.access_token}.to_json
+    def edit
 
-    # end
-
-
-    # def update
-    #   if @user.update_attributes(email: params[:user][:email], params[:user][:password])
-    #     render json: {status: 'SUCCESS', message: 'User credentials successfully updated', accessToken: @user.access_token}.to_json
-    #   elsif @user.update_attributes(username: params[:user][:username])
-    #     render json: {status: 'SUCCESS', message: 'Account successfully updated'}.to_json
-    #   else
-    #     render json: { errors: ['Update unsuccessful!'], status: 422 }.to_json
-    #   end
-    end
+      if @user
+        render json: {@user, only: [:email, :username], status: 'SUCCESS'}
+      else
+        render text: "User can not be identified !", status: 422
+      end
 
     end
 
+    def update
+
+      if @user.update_attributes(user_params)
+        render json: {status: 'SUCCESS', message: 'Account successfully updated'}.to_json
+      else
+        render json: { errors: ['Update unsuccessful!'], status: 422 }.to_json
+      end
+
+    end
 
 
+    def destroy
+      if @user.destroy
+        render text: "Account has been successfully deleted.", status: 'SUCCESS'
+      else
+        render text: "Something went wrong..", status: 422
+      end
 
-
-
-
+    end
 
 
     private

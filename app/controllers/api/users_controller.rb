@@ -22,7 +22,7 @@ module Api
     # This updates user params
     def update
 
-      if @user.update_attributes(user_params)
+      if @user.update(username: params[:username], email: params[:email], password: params[:password])
         render json: {status: 'SUCCESS', message: 'Account successfully updated', accessToken: @user.access_token}.to_json
       else
         render json: { errors: ['Update unsuccessful!'], status: 422 }.to_json

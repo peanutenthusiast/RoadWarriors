@@ -18,7 +18,7 @@ module Api
 
     def update
 
-      if (password: params[:password]).empty?
+      if params[:password].empty?
         render json: {status: 422, errors: ['Password cannot be empty']}
       elsif @user.update_attributes(user_params)
         log_in @user

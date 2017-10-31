@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     resources :users, only: [:create, :show, :update, :destroy]
 
     resources :password_resets, only: [:create, :update]
-    resources :yelp_restaurants, only: [:results]
+    resources :yelp_restaurants, only: [:index]
   end
 
 

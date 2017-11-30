@@ -1,8 +1,8 @@
 module Api
 
   class GasStationsController < ApplicationController
-    def index
-      response = HTTParty.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=#{params[:latitude]},#{params[:longitude]}&radius=500&type=gas_station&key=${ Figaro.env.google_places}" )
+    def index 
+      response = HTTParty.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=#{params[:latitude]},#{params[:longitude]}&radius=500&type=gas_station&key=#{ Figaro.env.google_places}" )
 
       render json: response
     end

@@ -1,4 +1,4 @@
-# RoadWarrior - The handy app that allows you to locate the cheapest gas prices and restaurants by affordability while you are on the go!
+# RoadWarrior
 
 ## Project Outline
 

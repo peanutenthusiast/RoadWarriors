@@ -1,3 +1,18 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  delete '/logout'  => 'sessions#destroy'
+
+  namespace :api do
+
+    post   '/login'   => 'sessions#create'
+    get    '/verify'  => 'sessions#verify_access_token'
+    get    '/restaurants' => 'yelp_restaurants#index'
+    get    '/gas_stations' => 'gas_stations#index'
+    get    '/directions' => 'directions#index'
+    resources :users, only: [:create, :show, :update, :destroy]
+
+    resources :password_resets, only: [:create, :update]
+  end
+
+
 end
